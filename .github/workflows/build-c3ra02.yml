@@ -1,0 +1,40 @@
+name: Build c3ra02 firmware
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - 'variants/esp32c3/diy/esp32c3_super_mini_ra02/**'
+      - '.github/workflows/build-c3ra02.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install platformio
+
+      - name: Build firmware
+        run: pio run -e c3ra02
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3ra02-firmware-${{ github.sha }}
+          path: |
+            .pio/build/c3ra02/firmware.factory.bin
+            .pio/build/c3ra02/firmware.bin
+          retention-days: 30 
