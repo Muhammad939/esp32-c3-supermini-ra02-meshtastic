@@ -23,9 +23,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install PlatformIO
-        run: |
-          python -m pip install --upgrade pip
-          pip install platformio
+        run: pip install platformio
 
       - name: Build firmware
         run: pio run -e c3ra02
@@ -37,4 +35,4 @@ jobs:
           path: |
             .pio/build/c3ra02/firmware.factory.bin
             .pio/build/c3ra02/firmware.bin
-          retention-days: 30 
+          retention-days: 30
