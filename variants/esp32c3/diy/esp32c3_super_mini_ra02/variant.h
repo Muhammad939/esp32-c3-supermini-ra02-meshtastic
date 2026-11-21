@@ -8,6 +8,13 @@ extern "C" {
 // ESP32-C3 SuperMini has no onboard Meshtastic display in this wiring.
 #define HAS_SCREEN 0
 
+// I2C: MUST be defined. Without these, the build uses Arduino defaults
+// SDA=8 / SCL=9, which collide with LORA_RESET (GPIO8) and the BOOT strap
+// (GPIO9), causing a reset loop right after i2cInit.
+#define WIRE_INTERFACES_COUNT 1
+#define I2C_SDA 0
+#define I2C_SCL 1
+
 // BOOT button.
 #define BUTTON_PIN 9
 
